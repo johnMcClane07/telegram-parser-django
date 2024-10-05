@@ -15,20 +15,12 @@
 ```bash
 git clone https://github.com/johnMcClane07/telegram-parser-django
 ```
-2)Создание виртуальной среды и ее активация:
+2)Активация виртуальной среды:
 ```bash
-python -m venv venv
-source venv/bin/activate
+source parserenv/bin/activate
 ```
-3)Установить зависимости из файла requirements.txt:
-```bash
-pip install -r requirements.txt
-```
-4)Выполнить миграции:
-```bash
-python3 manage.py migrate
-```
-5)Заполнить данные в settings.py:
+
+3)Заполнить данные в settings.py:
   ```python
 API_ID='your api_id'
 API_HASH='your api_hash'
@@ -46,6 +38,11 @@ DATABASES = {
 }
 ```
 api_id и api_hash мы берем с [оффициального сайта Telegram](https://my.telegram.org/auth)
+
+4)Выполнить миграции:
+```bash
+python3 manage.py migrate
+```
 
 
 
