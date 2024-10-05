@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>Негативные комментарии из Телеграм:</h3>
+    <form method="GET" action="{% url 'negative' %}" class="search-form mb-4">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Введите ваш запрос" required>
+            <button class="btn btn-primary" type="submit">Поиск</button>
+        </div>
+    </form>
+    <button type="button" class="btn btn-success btn-lg" onclick="window.location.href='{% url 'negative' %}?download=excel'">Скачать Excel</button>
+    <div class="phone-numbers-list">
+        {% if negative_comments %}
+            <table class="table table-bordered table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Компания</th>
+                        <th>Ссылка на пост</th>
+                        <th>Текст комментария</th>
+                        <th>Имя отправителя</th>
+                        <th>Username отправителя</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for negative in negative_comments %}
+                            <tr>
+                                <td>{{ negative.post_company }}</td>
+                                <td><a href="{{ negative.post_link }}" target="_blank">{{ negative.post_link }}</a></td>
+                                <td>{{ negative.comment_text }}</td>
+                                <td>{{ negative.sender_name }}</td>
+                                <td>@{{ negative.sender_username }}</td>
+                            </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Нет данных для отображения.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

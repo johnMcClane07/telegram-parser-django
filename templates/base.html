@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Телеграм Парсер{% endblock %}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            display: flex; /* Используем flexbox для размещения элементов */
+            justify-content: space-between; /* Размещение элементов по краям */
+            align-items: center; /* Вертикальное выравнивание */
+            background-color: #4a90e2;
+            color: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 1px;
+            cursor: pointer; /* Добавлено для указания на возможность клика */
+        }
+        header h1:hover {
+            text-decoration: underline; /* Добавлено для эффекта наведения */
+        }
+        .auth-button {
+            background-color: #0078D7; /* Цвет фона */
+            color: white; /* Цвет текста */
+            border: none; /* Убираем рамку */
+            padding: 10px 15px; /* Внутренние отступы */
+            border-radius: 5px; /* Закругление углов */
+            cursor: pointer; /* Курсор при наведении */
+            font-size: 16px; /* Размер шрифта */
+        }
+        .auth-button:hover {
+            background-color: #0056a3; /* Цвет фона при наведении */
+        }
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+            color: #4a90e2;
+            font-size: 28px;
+            text-align: center;
+        }
+        .message {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            transition: box-shadow 0.3s ease;
+        }
+        .message:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        .message .username {
+            font-weight: bold;
+            color: #0078D7;
+            font-size: 18px;
+        }
+        .message .date {
+            font-size: 14px;
+            color: #999;
+        }
+        .message .text {
+            margin-top: 15px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 15px;
+            }
+            header h1 {
+                font-size: 20px;
+            }
+            .container h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+    {% block styles %}{% endblock %}
+</head>
+<body>
+
+    <header>
+        <h1 onclick="location.href='{% url 'home' %}'">Телеграм Парсер</h1> <!-- Здесь измените 'home' на ваш URL имени -->
+        {% if request.session.access_token %}
+
+    <form method="POST" action="{% url 'logout' %}" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="login-button">Выход</button>
+    </form>
+{% else %}
+  
+    <button class="login-button" onclick="location.href='{% url 'login' %}'">Вход</button>
+{% endif %}
+    </header>
+
+    <div class="container">
+        {% block content %}
+    
+        {% endblock %}
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Телеграм Парсер | Все права защищены</p>
+    </footer>
+
+    {% block scripts %}
+
+    {% endblock %}
+
+</body>
+</html>

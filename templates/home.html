@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Главная - Телеграм Парсер{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center">Телеграм Парсер</h1>
+    <p class="text-center">Добро пожаловать в Телеграм Парсер! Используйте доступные функции, чтобы выполнять поиск, парсить информацию и просматривать историю запросов.</p>
+
+    <div class="features">
+       
+
+       
+        <div class="feature">
+            <h3>Парсинг</h3>
+            <p>Используйте парсинг для анализа данных из Телеграм-каналов и чатов. Начните парсить нужный канал прямо сейчас.</p>
+            <a href="{% url "get_comments_page" %}" class="btn btn-primary">Начать Парсинг</a>
+        </div>
+
+
+        <div class="feature">
+            <h3>История</h3>
+            <p>Просмотрите историю всех ваших предыдущих запросов. Здесь вы найдете ссылки на все выполненные запросы.</p>
+            <a href="{% url 'history' %}" class="btn btn-primary">История Запросов</a>
+        </div>
+
+        <div class="feature">
+            <h3>Список телефонов для прозвона</h3>
+            <p>Получите доступ к списку телефонных номеров, извлеченных из комментариев, для дальнейшего прозвона и взаимодействия.</p>
+            <a href="{% url 'phones' %}" class="btn btn-primary">Список Телефонов</a>
+        </div>
+
+        <div class="feature">
+            <h3>Негативные комментарии</h3>
+            <p>Просмотрите все негативные комментарии, оставленные на посты в Телеграм-каналах. Это может помочь определить аудиторию по которой мы будем проводить рассылку</p>
+            <a href="{% url 'negative' %}" class="btn btn-primary">Посмотреть </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .container {
+        margin-top: 50px;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .features {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: 20px;
+        margin-top: 40px;
+    }
+
+    .feature {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 10px;
+        width: 30%;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .feature:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn {
+        margin-top: 15px;
+        text-decoration: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #0078D7;
+        border-radius: 5px;
+    }
+
+    .btn-primary:hover {
+        background-color: #005bb5;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Детали поста - Телеграм Парсер{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Детали поста</h2>
+
+    <div class="post-info">
+        <p><strong>Компания:</strong> {{ post.company }}</p>
+        <p><strong>Ссылка:</strong> <a href="{{ post.link }}" target="_blank">{{ post.link }}</a></p>
+    </div>
+
+    <h3>Статистика комментариев:</h3>
+    <div class="statistics">
+        <p><strong>Количество комментариев:</strong> {{ post.length }}</p>
+        <p><strong>Колличество позитивных коментариев:</strong> {{ post.positive|default:"Нет данных" }}</p>
+        <p><strong>Колличество негативных коментариев:</strong> {{ post.negative|default:"Нет данных" }}</p>
+        <p><strong>Колличество нейтральных коментариев:</strong> {{ post.neutral|default:"Нет данных" }}</p>
+        <p><strong>Собрано телефонов:</strong> {{ post.phones|default:0 }}</p>
+
+    </div>
+
+    <h3>Комментарии:</h3>
+
+    {% if post.comments %}
+        <ul class="comments-list">
+            {% for comment in post.comments %}
+                <li class="comment-item">
+                    <div class="comment-header">
+                        <strong>Пользователь:</strong> @{{ comment.sender_username }}
+                        {% if comment.sender_name %}
+                            ({{ comment.sender_name }})
+                        {% endif %}
+                        <span class="comment-date">{{ comment.date }}</span>
+                    </div>
+                    <div class="comment-text">
+                        <p>{{ comment.comment_text }}</p>
+                        Тональность: 
+                            {% if comment.polarity == 'positive' %}
+                                <span style="color: green;">Позитивный</span>
+                            {% elif comment.polarity == 'negative' %}
+                                <span style="color: red;">Негативный</span>
+                            {% elif comment.polarity == 'neutral' %}
+                                <span style="color: gray;">Нейтральный</span>
+                            {% else %}
+                                <span style="color: orange;">Неизвестно</span>
+                            {% endif %}
+                            {% if comment.sender_phone %}
+                            <p>Номер телефона пользователя:{{ comment.sender_phone }}</p>
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Комментариев пока нет.</p>
+    {% endif %}
+
+    <a href="{% url 'history' %}" class="button">Вернуться к истории</a>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .container {
+        margin: 20px;
+    }
+    .post-info {
+        background-color: #f5f5f5;
+        padding: 15px;
+        border: 1px solid #ddd;
+        margin-bottom: 20px;
+        border-radius: 10px;
+    }
+    .statistics {
+        background-color: #e7f3fe;
+        padding: 15px;
+        border: 1px solid #b3d7ff;
+        margin-bottom: 20px;
+        border-radius: 10px;
+    }
+    .comments-list {
+        list-style: none;
+        padding: 0;
+    }
+    .comment-item {
+        background-color: #fafafa;
+        border: 1px solid #ddd;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        transition: box-shadow 0.3s ease;
+    }
+    .comment-item:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    .comment-header {
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 5px;
+    }
+    .comment-date {
+        float: right;
+        font-size: 12px;
+        color: #777;
+    }
+    .comment-text {
+        font-size: 16px;
+        color: #555;
+    }
+</style>
+{% endblock %}

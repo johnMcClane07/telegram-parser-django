@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Комментарии{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Комментарии к посту</h2>
+
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+    {% else %}
+        <div id="comments">
+            {% if comments %}
+                {% for comment in comments %}
+                    <div class="comment" >
+                        <strong>{{ comment.sender_username }}:</strong>
+                        <p>{{ comment.date }}</p>
+                        <small>{{ comment.comment_text }}</small>
+                        <p>
+                            Тональность: 
+                            {% if comment.polarity == 'positive' %}
+                                <span style="color: green;">Позитивный</span>
+                            {% elif comment.polarity == 'negative' %}
+                                <span style="color: red;">Негативный</span>
+                            {% elif comment.polarity == 'neutral' %}
+                                <span style="color: gray;">Нейтральный</span>
+                            {% else %}
+                                <span style="color: orange;">Неизвестно</span>
+                            {% endif %}
+                        </p>
+                        <hr>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Комментарии не найдены.</p>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

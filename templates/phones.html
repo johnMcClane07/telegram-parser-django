@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>Телефонные номера из комментариев:</h3>
+    <form method="GET" action="{% url 'phones' %}" class="search-form mb-4">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Введите ваш запрос" required>
+            <button class="btn btn-primary" type="submit">Поиск</button>
+        </div>
+    </form>
+    <div class="phone-numbers-list">
+        <button type="button" class="btn btn-success btn-lg" onclick="window.location.href='{% url 'phones' %}?download=excel'">Скачать Excel</button>
+        {% if phone_numbers %}
+            <table class="table table-bordered table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Компания</th>
+                        <th>Ссылка на пост</th>
+                        <th>Текст комментария</th>
+                        <th>Имя отправителя</th>
+                        <th>Username отправителя</th>
+                        <th>Номер телефона</th>
+                        <th>Полярность комментария</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for phone in phone_numbers %}
+                        <tr>
+                            <td>{{ phone.post_company }}</td>
+                            <td><a href="{{ phone.post_link }}" target="_blank">{{ phone.post_link }}</a></td>
+                            <td>{{ phone.comment_text }}</td>
+                            <td>{{ phone.sender_name }}</td>
+                            <td>@{{ phone.sender_username }}</td>
+                            <td>{{ phone.sender_phone }}</td>
+                            {% if phone.polarity == 'positive' %}
+                                <td style="color: green;">Позитивный</td>
+                            {% elif phone.polarity == 'negative' %}
+                                <td style="color: red;">Негативный</td>
+                            {% elif phone.polarity == 'neutral' %}
+                                <td style="color: gray;">Нейтральный</td>
+                            {% else %}
+                                <td style="color: orange;">Неизвестно</td>
+                            {% endif %}
+                            
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Нет данных о телефонных номерах для отображения.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
